@@ -10,7 +10,7 @@ export default function App() {
   const fetchData = () => {
     Promise.allSettled(
       MOVIES_ID.map((id) => {
-        return makeApiCall(`http://www.omdbapi.com/?i=${id}&apikey=${KEY}`);
+        return makeApiCall(`https://www.omdbapi.com/?i=${id}&apikey=${KEY}`);
       })
     ).then((e) => {
       const result = e.reduce((acc, elm) => {
