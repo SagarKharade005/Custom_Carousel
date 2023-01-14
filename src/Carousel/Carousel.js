@@ -1,6 +1,7 @@
 import { CARD_BUTTONS } from "./Constant";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
+import classNames from "classnames";
 import {
   CCard,
   CCardImage,
@@ -13,8 +14,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import style from "./Carousel.sass";
+import { useCallback } from "react";
 
-export default function Carousel({ list }) {
+export default function Carousel({ list, fevoriteMovie, selectedMovies }) {
+  const onfevoriteClick = useCallback(
+    (data) => {
+      fevoriteMovie(data);
+    },
+    [list]
+  );
   return (
     <div className="carousel">
       <Swiper
@@ -27,18 +35,27 @@ export default function Carousel({ list }) {
         navigation={true}
         modules={[Pagination, Navigation]}
       >
-        {list.map((e) => (
-          <SwiperSlide>
-            <CCard className={style.Carousel}>
-              <CCardTitle className={style.title}>{e.Title}</CCardTitle>
-              <CCardImage orientation="top" src={e.Poster} />
-              <CCardBody>
-                <CButton href="#">{CARD_BUTTONS.Like}</CButton>
-                <CButton href="#">{CARD_BUTTONS.Own}</CButton>
-              </CCardBody>
-            </CCard>
-          </SwiperSlide>
-        ))}
+        {list &&
+          list?.map((e) => (
+            <SwiperSlide>
+              <CCard className={style.Carousel}>
+                <CCardTitle
+                  className={classNames(
+                    selectedMovies?.includes(e.imdbID) ? "selected" : ""
+                  )}
+                >
+                  {e.Title}
+                </CCardTitle>
+                <CCardImage orientation="top" src={e.Poster} />
+                <CCardBody>
+                  <CButton onClick={() => onfevoriteClick(e)} href="#">
+                    {CARD_BUTTONS.Like}
+                  </CButton>
+                  <CButton href="#">{CARD_BUTTONS.Own}</CButton>
+                </CCardBody>
+              </CCard>
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );

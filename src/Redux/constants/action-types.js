@@ -1,0 +1,5 @@
+export const actionTypes = {
+  SET_MOVIES: "SET_MOVIES",
+  FEVORITE_MOVIE: "SELECTED_MOVIE",
+  UN_FEVORITE_MOVIE: "UN_FEVORITE_MOVIE",
+};
